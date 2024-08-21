@@ -1,0 +1,33 @@
+services:
+    # image project
+    app:
+        build:
+            context: ./src
+            dockerfile: Dockerfile
+        restart: no
+        user: root
+        working_dir: /app/src
+        command: php artisan serve --host=0.0.0.0
+        volumes:
+            - ./src:/app/src
+        ports:
+            - "8016:8000"
+        networks:
+            - app
+    db:
+        image: mysql:8.0
+        restart: no
+        environment:
+            MYSQL_DATABASE: 'db'
+            # Password for root access
+            MYSQL_ROOT_PASSWORD: 'password'
+        volumes:
+            - ./db:/var/lib/mysql
+        ports:
+            - "3316:3306"
+        networks:
+            - app
+
+networks:
+    app:
+        driver: bridge
