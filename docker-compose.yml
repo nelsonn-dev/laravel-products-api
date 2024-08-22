@@ -7,20 +7,30 @@ services:
         restart: no
         user: "1000"
         working_dir: /app/src
-        command: php artisan serve --host=0.0.0.0
+        command: sh startup.sh
         volumes:
             - ./src:/app/src
         ports:
             - "8016:8000"
         networks:
             - app
+        depends_on:
+            db:
+                condition: service_healthy
+            
     db:
         image: mysql:8.0
         restart: no
         environment:
             MYSQL_DATABASE: 'db'
-            # Password for root access
+            MYSQL_USER: root
             MYSQL_ROOT_PASSWORD: 'password'
+        healthcheck:
+            test: mysqladmin ping -h 127.0.0.1 -u root --password=password || exit 1
+            interval: 5s
+            retries: 2
+            start_period: 5s
+            timeout: 3s
         volumes:
             - ./db:/var/lib/mysql
         ports:
