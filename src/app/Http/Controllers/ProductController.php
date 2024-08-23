@@ -8,12 +8,20 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function list()
+    public function list(Request $request)
     {
         try {
-            return Product::all();
+            $products = Product::orderBy('id', 'desc')->paginate($request->per_page ?: 10);
+
+            return response()->json([
+                'message' => "Success.",
+                'data' => $products,
+            ], 200);
         } catch (Exception $e) {
-            return $e->getMessage();
+            return response()->json([
+                'message' => $e->getMessage(),
+                'data' => [],
+            ], 400);
         }
     }
 
