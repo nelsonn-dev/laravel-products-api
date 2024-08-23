@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Middleware\MyRestrictedDocsAccess;
-use Dedoc\Scramble\Http\Middleware\RestrictedDocsAccess;
 
 return [
     /*
