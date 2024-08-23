@@ -173,4 +173,24 @@ class ProductController extends Controller
             ], $e->getCode() ?: 400);
         }
     }
+
+    public function getByCategory(Request $request, int $category_id)
+    {
+        try {
+            $products = Product::where('category_id', $category_id)
+                ->with('Category')
+                ->orderBy('id', 'desc')
+                ->paginate($request->per_page ?: 10);
+
+            return response()->json([
+                'message' => "Success.",
+                'data' => $products,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'data' => [],
+            ], $e->getCode() ?: 400);
+        }
+    }
 }
