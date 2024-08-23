@@ -32,8 +32,8 @@ class ProductController extends Controller
                 'name' => 'required|max:50',
                 'description' => 'required|max:200',
                 'price' => 'required|numeric',
-                'expiration_date' => 'required',
-                'image_url' => 'required',
+                'expiration_date' => 'required|string',
+                'image_url' => 'required|string',
             ]);
 
             $product = Product::create([
@@ -84,6 +84,8 @@ class ProductController extends Controller
                 'name' => 'max:50',
                 'description' => 'max:200',
                 'price' => 'numeric',
+                'expiration_date' => 'string',
+                'image_url' => 'string',
             ]);
 
             $product = Product::find($id);
