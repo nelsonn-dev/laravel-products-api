@@ -7,7 +7,7 @@ Products Management API made with [Laravel](https://laravel.com/)
 - [Startup process](./README.md#startup-process)
 - [API Documentation](./README.md#api-documentation)
 - [DB Schema](./README.md#db-schema)
-- [Testing the API](./testing-the-api)
+- [Testing the API](./README.md#testing-the-api)
 - [Goals](./README.md#goals)
 
 ## How to setup the project
