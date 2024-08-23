@@ -1,18 +1,18 @@
 #!/bin/sh
 FIRST_RUN=false
 
+if [ ! -d ./vendor/laravel ]
+then
+    echo "Packages not installed in vendor, running composer install."
+    composer install
+fi
+
 if [ ! -e .env ]
 then
     FIRST_RUN=true
     echo "ENV file not found, creating new one based on Example."
     cp .env.example .env
     php artisan key:generate
-fi
-
-if [ ! -d ./vendor/laravel ]
-then
-    echo "Packages not installed in vendor, running composer install."
-    composer install
 fi
 
 if [ "$FIRST_RUN" = true ]
