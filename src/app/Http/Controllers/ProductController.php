@@ -21,7 +21,7 @@ class ProductController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
                 'data' => [],
-            ], $e->getCode());
+            ], $e->getCode() ?: 400);
         }
     }
 
@@ -73,7 +73,7 @@ class ProductController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
                 'data' => [],
-            ], $e->getCode());
+            ], $e->getCode() ?: 400);
         }
     }
 
@@ -131,7 +131,31 @@ class ProductController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
                 'data' => [],
-            ], $e->getCode());
+            ], $e->getCode() ?: 400);
+        }
+    }
+
+    public function search(Request $request)
+    {
+        try {
+            $request->validate([
+                'key' => 'required|string|max:200',
+            ]);
+
+            $products = Product::where('name', 'like', "%" . $request->key . "%")
+                ->orWhere('description', 'like', "%" . $request->key . "%")
+                ->orderBy('id', 'desc')
+                ->paginate($request->per_page ?: 10);
+
+            return response()->json([
+                'message' => "Success.",
+                'data' => $products,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'data' => [],
+            ], $e->getCode() ?: 400);
         }
     }
 }
