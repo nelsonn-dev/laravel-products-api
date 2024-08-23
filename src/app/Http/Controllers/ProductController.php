@@ -21,7 +21,7 @@ class ProductController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
                 'data' => [],
-            ], 400);
+            ], $e->getCode());
         }
     }
 
@@ -30,18 +30,52 @@ class ProductController extends Controller
         return $request;
     }
 
-    public function show(Product $product)
+    public function show(int $id)
+    {
+        try {
+            $product = Product::find($id);
+
+            if (!$product) {
+                throw new Exception("Product not found.", 404);
+            }
+
+            return response()->json([
+                'message' => "Success.",
+                'data' => $product,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'data' => [],
+            ], $e->getCode());
+        }
+    }
+
+    public function update(Request $request, int $id)
     {
         //
     }
 
-    public function update(Request $request, Product $product)
+    public function destroy(int $id)
     {
-        //
-    }
+        try {
+            $product = Product::find($id);
 
-    public function destroy(Product $product)
-    {
-        //
+            if (!$product) {
+                throw new Exception("Product not found.", 404);
+            }
+
+            $product->delete();
+
+            return response()->json([
+                'message' => "Success.",
+                'data' => [],
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'data' => [],
+            ], $e->getCode());
+        }
     }
 }

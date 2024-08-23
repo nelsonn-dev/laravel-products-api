@@ -10,8 +10,8 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('product')->controller(ProductController::class)->group(function () {
     Route::get('/', 'list');
-    Route::get('/{product}', 'show');
+    Route::get('/{id}', 'show');
     Route::post('/', 'store');
-    Route::put('/{product}', 'update');
-    Route::delete('/{product}', 'destroy');
+    Route::put('/{id}', 'update');
+    Route::delete('/{id}', 'destroy');
 });
