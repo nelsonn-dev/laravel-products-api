@@ -21,7 +21,8 @@ class ProductFactory extends Factory
             'description' => fake()->paragraph(2),
             'price' => fake()->numberBetween(1, 1000000),
             'expiration_date' => now()->addDays(fake()->numberBetween(0, 1)),
-            'image_url' => fake()->imageUrl(640, 480, 'animals', true)
+            'image_url' => fake()->imageUrl(640, 480, 'animals', true),
+            'category_id' => fake()->numberBetween(1, 4),
         ];
     }
 }

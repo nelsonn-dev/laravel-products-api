@@ -11,7 +11,9 @@ class ProductController extends Controller
     public function list(Request $request)
     {
         try {
-            $products = Product::orderBy('id', 'desc')->paginate($request->per_page ?: 10);
+            $products = Product::orderBy('id', 'desc')
+                ->with('Category')
+                ->paginate($request->per_page ?: 10);
 
             return response()->json([
                 'message' => "Success.",
@@ -34,6 +36,7 @@ class ProductController extends Controller
                 'price' => 'required|numeric',
                 'expiration_date' => 'required|string',
                 'image_url' => 'required|string',
+                'category_id' => 'required|integer'
             ]);
 
             $product = Product::create([
@@ -42,7 +45,10 @@ class ProductController extends Controller
                 "price" => $request->price,
                 "expiration_date" => $request->expiration_date,
                 "image_url" => $request->image_url,
+                "category_id" => $request->category_id
             ]);
+
+            $product->category;
 
             return response()->json([
                 'message' => "Success.",
@@ -65,6 +71,8 @@ class ProductController extends Controller
                 throw new Exception("Product not found.", 404);
             }
 
+            $product->category;
+
             return response()->json([
                 'message' => "Success.",
                 'data' => $product,
@@ -86,6 +94,7 @@ class ProductController extends Controller
                 'price' => 'numeric',
                 'expiration_date' => 'string',
                 'image_url' => 'string',
+                'category_id' => 'numeric'
             ]);
 
             $product = Product::find($id);
@@ -99,8 +108,11 @@ class ProductController extends Controller
             if ($request->price) $product->price = $request->price;
             if ($request->expiration_date) $product->expiration_date = $request->expiration_date;
             if ($request->image_url) $product->image_url = $request->image_url;
+            if ($request->category_id) $product->category_id = $request->category_id;
 
             $product->save();
+
+            $product->category;
 
             return response()->json([
                 'message' => "Success.",
@@ -145,6 +157,7 @@ class ProductController extends Controller
             ]);
 
             $products = Product::where('name', 'like', "%" . $request->key . "%")
+                ->with('Category')
                 ->orWhere('description', 'like', "%" . $request->key . "%")
                 ->orderBy('id', 'desc')
                 ->paginate($request->per_page ?: 10);
