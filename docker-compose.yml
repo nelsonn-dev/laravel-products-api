@@ -29,7 +29,7 @@ services:
             interval: 5s
             retries: 2
             start_period: 5s
-            timeout: 3s
+            timeout: 10s
         volumes:
             - ./db:/var/lib/mysql
         ports:
