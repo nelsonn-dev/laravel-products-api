@@ -19,6 +19,10 @@ class MyRestrictedDocsAccess
             return $next($request);
         }
 
+        if (app()->environment('production')) {
+            return $next($request);
+        }
+
         $user = $request->user();
 
         if (in_array($user->email, ['test.test@test.test'])) {

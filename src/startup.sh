@@ -27,9 +27,9 @@ if [ "$FIRST_RUN" = true ]
 then
     echo "First time running the app, making migration and seeding."
 
-    php artisan migrate
+    php artisan migrate --force
 
-    php artisan db:seed
+    php artisan db:seed --force
 fi
 
 php artisan serve --host=0.0.0.0

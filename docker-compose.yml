@@ -7,7 +7,7 @@ services:
         restart: no
         user: "1000"
         working_dir: /app/src
-        command: sh startup.sh ${ENV:-development} ${DB_PW:-password}
+        command: sh startup.sh ${ENV:-local} ${DB_PW:-password}
         volumes:
             - ./src:/app/src
         ports:
