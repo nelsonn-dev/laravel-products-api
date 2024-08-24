@@ -18,6 +18,13 @@ The setup is made entirely by **Docker**, with `./docker-compose.yml` and `./src
 docker compose up -d
 ```
 
+> [!WARNING]
+> Do not create an `.env` file beafore runnning the project,
+> it is already done by the startup preccess. But if you'd like so, run `php artisan key:generate` after
+
+> [!WARNING]
+> If the project does not run at first build by container unhealht problems, don't panic 😣, that must be because the db cointainer did not have the time to startup before it's healthcheck by docker compose, try to run `docker compose up` again and it should work.
+
 It's also possible to change some configutations using docker compose args:
 - `ENV` = Project enviroment, use `ENV=production` with you whant to run with laravel production mode. Default value is `local`
 - `API_PORT` = is the port where de API is exposed. Default value is `8016`
