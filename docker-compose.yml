@@ -4,7 +4,7 @@ services:
         build:
             context: ./src
             dockerfile: Dockerfile
-        restart: no
+        restart: "no"
         user: "1000"
         working_dir: /app/src
         command: sh startup.sh ${ENV:-local} ${DB_PW:-password}
@@ -20,15 +20,15 @@ services:
 
     db:
         image: mysql:8.0
-        restart: no
+        restart: "no"
         environment:
             MYSQL_DATABASE: 'db'
             MYSQL_ROOT_PASSWORD: '${DB_PW:-password}'
         healthcheck:
             test: mysqladmin ping -h 127.0.0.1 -u root --password=${DB_PW:-password} || exit 1
-            interval: 5s
-            retries: 2
-            start_period: 5s
+            interval: 10s
+            retries: 5
+            start_period: 10s
             timeout: 10s
         volumes:
             - ./db:/var/lib/mysql
