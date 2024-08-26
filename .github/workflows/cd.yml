@@ -22,6 +22,6 @@ jobs:
           key: ${{ secrets.AWS_SSH_KEY }}
           port: 22
           script: |
-            cd /home/dev/laravel-products-api/
+            cd /home/nelson/laravel-products-api/
             git pull origin main
             ENV=production API_PORT=${{ vars.API_PORT }} DB_PORT=${{ vars.DB_PORT }} DB_PW=${{ secrets.DB_PW }} docker compose up -d --build
